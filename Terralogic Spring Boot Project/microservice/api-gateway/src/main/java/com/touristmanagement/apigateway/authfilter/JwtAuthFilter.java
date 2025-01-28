@@ -7,6 +7,7 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import com.touristmanagement.apigateway.exceptions.TokenExpiredException;
 import com.touristmanagement.apigateway.util.JwtTokenUtil;
 
 
@@ -41,6 +42,8 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
                 	 //boolean isAuth = client.validateToken(authHeader);
                 	 jwtTokenUtil.validateToken(authHeader);
 
+                 } catch (TokenExpiredException ex) {
+                	    throw ex; // Re-throw to be handled globally
                  } catch (Exception e) {
 						/*
 						 * System.out.println("invalid access...!"); throw new
